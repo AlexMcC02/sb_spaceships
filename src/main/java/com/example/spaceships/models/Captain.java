@@ -1,10 +1,10 @@
 package com.example.spaceships.models;
 
 public class Captain {
-    int id;
-    String name;
-    int age;
-    Rank rank;
+    private int id;
+    private String name;
+    private int age;
+    private Rank rank;
 
     public Captain(int id, String name, int age, Rank rank) {
         this.id = id;
