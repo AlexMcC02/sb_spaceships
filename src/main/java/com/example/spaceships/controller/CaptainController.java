@@ -23,7 +23,7 @@ public class CaptainController {
         return captainRepository.getCaptainById(id);
     }
 
-    // Todo, make a CaptainRequest without an id and generate it only the fly.
+    // TODO, make a CaptainRequest without an id and generate it only the fly.
     @PostMapping("")
     public Captain createCaptain(@RequestBody Captain captain) {
         return captainRepository.createCaptain(captain);
