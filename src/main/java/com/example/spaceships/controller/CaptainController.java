@@ -52,5 +52,4 @@ public class CaptainController {
     public void delete(@PathVariable Long id) {
         captainRepository.deleteById(id);
     }
-
 }

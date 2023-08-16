@@ -6,3 +6,12 @@ CREATE TABLE CAPTAIN (
     age INT NOT NULL,
     rank VARCHAR(255) NOT NULL
 );
+
+CREATE TABLE SHIP (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    captainId INT,
+    name VARCHAR(255),
+    shield VARCHAR(255),
+    weapon VARCHAR(255),
+    speed INT
+);
