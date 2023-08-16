@@ -34,8 +34,8 @@ public class CaptainController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("")
-    public Captain create(@RequestBody Captain captain) {
-        return captainRepository.save(captain);
+    public void create(@RequestBody Captain captain) {
+        captainRepository.save(captain);
     }
 
     @ResponseStatus(HttpStatus.ACCEPTED)
