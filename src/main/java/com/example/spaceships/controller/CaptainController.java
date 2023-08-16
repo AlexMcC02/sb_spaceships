@@ -2,41 +2,55 @@ package com.example.spaceships.controller;
 
 import com.example.spaceships.models.Captain;
 import com.example.spaceships.repositories.CaptainRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
 @RequestMapping(path = "/captains")
 public class CaptainController {
 
-    CaptainRepository captainRepository = new CaptainRepository();
+    private final CaptainRepository captainRepository;
+
+    @Autowired
+    public CaptainController(CaptainRepository captainRepository) {
+        this.captainRepository = captainRepository;
+    }
 
     @GetMapping("")
-    public ArrayList<Captain> getAllCaptains() {
-        return captainRepository.getAllCaptains();
+    public List<Captain> findAll() {
+        return captainRepository.findAll();
     }
 
     @GetMapping(path = "/{id}")
-    public Optional<Captain> getCaptainById(@PathVariable("id") int id) {
-        return captainRepository.getCaptainById(id);
+    public Optional<Captain> findById(@PathVariable("id") Long id) {
+        return Optional.of(captainRepository.findById(id))
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Captain not found"));
     }
 
-    // TODO, make a CaptainRequest without an id and generate it only the fly.
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("")
-    public Captain createCaptain(@RequestBody Captain captain) {
-        return captainRepository.createCaptain(captain);
+    public Captain create(@RequestBody Captain captain) {
+        return captainRepository.save(captain);
     }
 
+    @ResponseStatus(HttpStatus.ACCEPTED)
     @PutMapping("/{id}")
-    public Captain updateCaptainById(@PathVariable("id") int id, @RequestBody Captain captain) {
-        return captainRepository.editCaptainById(id, captain);
+    public void update(@PathVariable("id") Long id, @RequestBody Captain captain) {
+        if(!captainRepository.existsById(id)) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Captain not found");
+        }
+        captainRepository.save(captain);
     }
 
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{id}")
-    public void deleteCaptainById(@PathVariable("id") int id) {
-        captainRepository.deleteCaptainById(id);
+    public void delete(@PathVariable Long id) {
+        captainRepository.deleteById(id);
     }
 
 }
